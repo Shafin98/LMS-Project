@@ -1,0 +1,65 @@
+from rest_framework import serializers
+from .models import Category, Course, Enrollment, Lesson
+from authapp.models import User
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']
+
+class CourseSerializer(serializers.ModelSerializer):
+    instructor = serializers.StringRelatedField()
+    category = CategorySerializer(read_only=True)
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        source='category',
+        write_only=True
+    )
+
+    class Meta:
+        model = Course
+        fields = [
+            'id',
+            'title',
+            'description',
+            'instructor',
+            'category',
+            'category_id',
+            'is_published',
+            'created_at'
+        ]
+
+class CourseCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['title', 'description', 'category', 'is_published']
+
+    def create(self, validated_data):
+        request = self.context['request']
+        validated_data['instructor'] = request.user
+        return super().create(validated_data)
+    
+class EnrollmentSerializer(serializers.ModelSerializer):
+    student = serializers.StringRelatedField()
+    course = serializers.StringRelatedField()
+
+    class Meta:
+        model = Enrollment
+        fields = ['id', 'student', 'course', 'enrolled_at']
+
+class EnrollmentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enrollment
+        fields = ['course']
+
+    def create(self, validated_data):
+        request = self.context['request']
+        return Enrollment.objects.create(
+            student=request.user,
+            course=validated_data['course']
+        )
+    
+class LessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = ['id', 'title', 'content', 'video_url', 'order']
