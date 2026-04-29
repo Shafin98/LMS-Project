@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import *
 from .serializers import *
 from django.core.mail import send_mail
-import uuid
+from .permissions import *
 #rest
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -77,7 +77,7 @@ class ForgotPasswordView(APIView):
         # SMTP (Gmail)
         # SendGrid
         # Celery background tasks
-        
+
         print("RESET LINK:", reset_link)
 
         return Response({"message": "Password reset link generated"})
@@ -105,3 +105,15 @@ class ResetPasswordView(APIView):
         token_obj.delete()
 
         return Response({"message": "Password reset successful"})
+    
+class AdminOnlyView(APIView):
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def get(self, request):
+        return Response({"message": "Hello Admin"})
+    
+class InstructorOnlyView(APIView):
+    permission_classes = [IsAuthenticated, IsInstructor]
+
+class StudentOnlyView(APIView):
+    permission_classes = [IsAuthenticated, IsStudent]
