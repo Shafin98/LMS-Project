@@ -52,6 +52,12 @@ class EnrollmentCreateSerializer(serializers.ModelSerializer):
         model = Enrollment
         fields = ['course']
 
+    def validate(self, data):
+        request = self.context['request']
+        if Enrollment.objects.filter(student=request.user, course=data['course']).exists():
+            raise serializers.ValidationError("You are already enrolled in this course.")
+        return data
+
     def create(self, validated_data):
         request = self.context['request']
         return Enrollment.objects.create(
@@ -62,4 +68,4 @@ class EnrollmentCreateSerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['id', 'title', 'content', 'video_url', 'order']
+        fields = ['id', 'course', 'title', 'content', 'video_url', 'order']

@@ -114,6 +114,11 @@ class LessonCreateView(APIView):
     permission_classes = [IsAuthenticated, IsInstructor]
 
     def post(self, request):
+        course_id = request.data.get("course")
+
+        if not Course.objects.filter(id=course_id, instructor=request.user).exists():
+            return Response({"error": "You can only add lessons to your own courses"}, status=403)
+
         serializer = LessonSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         lesson = serializer.save()
@@ -144,9 +149,46 @@ class DashboardView(APIView):
     permission_classes = [IsAuthenticated, IsAdmin]
 
     def get(self, request):
+        # per-course enrollment stats
+        course_stats = []
+        for course in Course.objects.all():
+            course_stats.append({
+                "course": course.title,
+                "enrollments": Enrollment.objects.filter(course=course).count()
+            })
+
+        # top 5 courses by enrollment
+        top_courses = sorted(course_stats, key=lambda x: x["enrollments"], reverse=True)[:5]
+
+        # per-instructor course count
+        instructor_stats = []
+        for instructor in User.objects.filter(role="instructor"):
+            instructor_stats.append({
+                "instructor": instructor.username,
+                "courses": Course.objects.filter(instructor=instructor).count()
+            })
+
         return Response({
             "total_courses": Course.objects.count(),
             "total_enrollments": Enrollment.objects.count(),
             "total_students": User.objects.filter(role="student").count(),
             "total_instructors": User.objects.filter(role="instructor").count(),
+            "top_courses": top_courses,
+            "instructor_stats": instructor_stats,
         })
+    
+class CategoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        categories = CourseCategory.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        if not request.user.role == 'admin':
+            return Response({"error": "Only admins can create categories"}, status=403)
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=201)

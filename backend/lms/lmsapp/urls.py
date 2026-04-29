@@ -17,4 +17,5 @@ urlpatterns = [
     path("lessons/create/", LessonCreateView.as_view()),
 
     path("dashboard/", DashboardView.as_view()),
+    path("categories/", CategoryView.as_view()),
 ]

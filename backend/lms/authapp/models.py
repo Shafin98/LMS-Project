@@ -36,4 +36,4 @@ class PasswordResetToken(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_expired(self):
-        return (timezone.now() - self.created_at).seconds > 3600
+        return (timezone.now() - self.created_at).total_seconds() > 3600
