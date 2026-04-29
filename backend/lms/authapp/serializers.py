@@ -24,11 +24,19 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
     
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = ['user', 'bio', 'profile_image', 'expertise']
+
+    def get_user(self, obj):
+        return {
+            "id": obj.user.id,
+            "username": obj.user.username,
+            "email": obj.user.email,
+            "role": obj.user.role,
+        }
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
