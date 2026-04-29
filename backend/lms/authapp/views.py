@@ -1,7 +1,9 @@
 #general
 from django.shortcuts import render
-from .models import User
+from .models import *
 from .serializers import *
+from django.core.mail import send_mail
+import uuid
 #rest
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -48,3 +50,58 @@ class ProfileView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+    
+class ForgotPasswordView(APIView):
+    permission_classes = []
+
+    def post(self, request):
+        email = request.data.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=400)
+
+        # create token
+        token_obj = PasswordResetToken.objects.create(user=user)
+
+        reset_link = f"http://localhost:3000/reset-password/{token_obj.token}"
+
+        # (for now just print instead of email)
+        # Right now email is NOT sent
+
+        # We just print link (good for development)
+
+        # Later upgrade to:
+
+        # SMTP (Gmail)
+        # SendGrid
+        # Celery background tasks
+        
+        print("RESET LINK:", reset_link)
+
+        return Response({"message": "Password reset link generated"})
+    
+class ResetPasswordView(APIView):
+    permission_classes = []
+
+    def post(self, request):
+        token = request.data.get("token")
+        new_password = request.data.get("new_password")
+
+        try:
+            token_obj = PasswordResetToken.objects.get(token=token)
+        except PasswordResetToken.DoesNotExist:
+            return Response({"error": "Invalid token"}, status=400)
+
+        if token_obj.is_expired():
+            return Response({"error": "Token expired"}, status=400)
+
+        user = token_obj.user
+        user.set_password(new_password)
+        user.save()
+
+        # delete token after use
+        token_obj.delete()
+
+        return Response({"message": "Password reset successful"})
