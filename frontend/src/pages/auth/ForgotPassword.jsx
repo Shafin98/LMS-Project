@@ -16,7 +16,7 @@ function ForgotPassword() {
 
     try {
       await api.post("/auth/forgot-password/", { email })
-      setMessage("Reset link generated. Check your terminal (dev mode).")
+      setMessage("Reset link generated. Check your email...")
     } catch (err) {
       setError("No account found with this email.")
     } finally {
