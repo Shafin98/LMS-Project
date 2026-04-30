@@ -4,6 +4,7 @@ from .models import *
 from .serializers import *
 from django.core.mail import send_mail
 from .permissions import *
+from django.template.loader import render_to_string
 #rest
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -62,25 +63,27 @@ class ForgotPasswordView(APIView):
         except User.DoesNotExist:
             return Response({"error": "User not found"}, status=400)
 
-        # create token
         token_obj = PasswordResetToken.objects.create(user=user)
+        reset_link = f"http://localhost:5173/reset-password/{token_obj.token}"
 
-        reset_link = f"http://localhost:3000/reset-password/{token_obj.token}"
+        html_message = render_to_string('password_reset_email.html', {
+            'username': user.username,
+            'reset_link': reset_link,
+        })
 
-        # (for now just print instead of email)
-        # Right now email is NOT sent
+        try:
+            send_mail(
+                subject="Reset Your LMS Password",
+                message=f"Reset your password here: {reset_link}",
+                from_email=None,
+                recipient_list=[email],
+                html_message=html_message,
+                fail_silently=False,
+            )
+            return Response({"message": "Password reset email sent successfully"})
 
-        # We just print link (good for development)
-
-        # Later upgrade to:
-
-        # SMTP (Gmail)
-        # SendGrid
-        # Celery background tasks
-
-        print("RESET LINK:", reset_link)
-
-        return Response({"message": "Password reset link generated"})
+        except Exception as e:
+            return Response({"error": "Failed to send email. Please try again."}, status=500)
     
 class ResetPasswordView(APIView):
     permission_classes = []
