@@ -9,6 +9,7 @@ import CourseDetail from "./pages/courses/CourseDetail"
 import MyCourses from "./pages/courses/MyCourses"
 import CreateCourse from "./pages/courses/CreateCourse"
 import EditCourse from "./pages/courses/EditCourse"
+import Dashboard from "./pages/dashboard/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
@@ -55,12 +56,10 @@ function App() {
         </ProtectedRoute>
       } />
 
-      {/* placeholder - replaced in next step */}
+      {/* admin only */}
       <Route path="/dashboard" element={
         <ProtectedRoute role="admin">
-          <div className="text-center mt-20 text-2xl text-blue-600 font-bold">
-            Dashboard coming soon...
-          </div>
+          <Dashboard />
         </ProtectedRoute>
       } />
     </Routes>
