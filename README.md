@@ -79,7 +79,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**4. Create your `.env` file**
+**4. Create your `.env` file (optional)**
 
 Create a `.env` file in the `lms/` folder (same level as `manage.py`):
 ```env
@@ -140,14 +140,17 @@ Runs at → `http://localhost:5173`
 
 ## 🖼️ Screenshots
 
-> Screenshots will be added here soon.
-
-<!-- 
-To add screenshots in the future, paste them like this:
-
-![Login Page](screenshots/login.png)
-![Dashboard](screenshots/dashboard.png)
-![Course List](screenshots/courses.png)
--->
+![Login Page]
+<p align="center">
+  <img src="./src/assets/login.png" alt="Weather App Screenshot" width="700"/>
+</p>
+![Dashboard]
+<p align="center">
+  <img src="./src/assets/dashboard.png" alt="Weather App Screenshot" width="700"/>
+</p>
+![Course List]
+<p align="center">
+  <img src="./src/assets/course.png" alt="Weather App Screenshot" width="700"/>
+</p>
 
 ---
