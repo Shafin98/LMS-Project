@@ -68,7 +68,7 @@ cd lms-project/backend/lms
 python -m venv venv
 
 # Windows
-venv\Scripts\activate
+venv\Scripts\activate or source venv\Scripts\activate
 
 # Mac/Linux
 source venv/bin/activate
