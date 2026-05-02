@@ -140,15 +140,15 @@ Runs at → `http://localhost:5173`
 
 ## 🖼️ Screenshots
 
-[Login Page]
+🔐 Login
 <p align="center">
   <img src="./frontend/src/assets/login.png" alt="Login Page Screenshot" width="700"/>
 </p>
-[Dashboard]
+📊 Admin Dashboard
 <p align="center">
   <img src="./frontend/src/assets/dashboard.png" alt="Dashboard Page Screenshot" width="700"/>
 </p>
-[Course List]
+📚 Course Listing
 <p align="center">
   <img src="./frontend/src/assets/course.png" alt="Course List Screenshot" width="700"/>
 </p>
