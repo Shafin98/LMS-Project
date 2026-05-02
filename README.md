@@ -1,6 +1,6 @@
 # 📚 LMS — Full Stack Learning Management System
 
-A secure, role-based **Learning Management System** built with **Django REST Framework** and **React**. Designed to support real-world educational workflows — from course creation and student enrollment to admin-level reporting and analytics.
+A secure, role-based **Learning Management System** built with **Django REST Framework** and **React**. It is designed to support real-world educational workflows, from creating courses and enrolling students to managing the platform with admin-level reporting and analytics.
 
 ---
 
