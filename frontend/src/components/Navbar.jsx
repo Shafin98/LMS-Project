@@ -16,7 +16,7 @@ function Navbar() {
     <nav className="bg-blue-600 text-white px-6 py-4 flex items-center justify-between">
       
       {/* left side - brand */}
-      <Link to="/" className="text-xl font-bold tracking-wide">
+      <Link to="#" className="text-xl font-bold tracking-wide">
         LMS App
       </Link>
 
@@ -49,7 +49,7 @@ function Navbar() {
         </Link>
         <button
           onClick={handleLogout}
-          className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100 transition font-medium"
+          className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-300 transition font-medium cursor-pointer"
         >
           Logout
         </button>
