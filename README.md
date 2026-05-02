@@ -140,7 +140,7 @@ Runs at → `http://localhost:5173`
 
 ## 🖼️ Screenshots
 
-![Login Page]
+[Login Page]
 <p align="center">
   <img src="./src/assets/login.png" alt="Weather App Screenshot" width="700"/>
 </p>
