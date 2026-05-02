@@ -142,15 +142,15 @@ Runs at → `http://localhost:5173`
 
 [Login Page]
 <p align="center">
-  <img src="./src/assets/login.png" alt="Weather App Screenshot" width="700"/>
+  <img src="./frontend/src/assets/login.png" alt="Login Page Screenshot" width="700"/>
 </p>
 [Dashboard]
 <p align="center">
-  <img src="./src/assets/dashboard.png" alt="Weather App Screenshot" width="700"/>
+  <img src="./frontend/src/assets/dashboard.png" alt="Dashboard Page Screenshot" width="700"/>
 </p>
 [Course List]
 <p align="center">
-  <img src="./src/assets/course.png" alt="Weather App Screenshot" width="700"/>
+  <img src="./frontend/src/assets/course.png" alt="Course List Screenshot" width="700"/>
 </p>
 
 ---
