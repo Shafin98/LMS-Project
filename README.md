@@ -41,7 +41,6 @@ The backend is built as a REST API using Django and secured with JWT authenticat
 | HTTP Client | Axios |
 | Routing | React Router v7 |
 | Database | SQLite (development) |
-| Email | Office365 SMTP |
 | Environment | python-dotenv |
 
 ---
